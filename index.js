@@ -7,19 +7,20 @@ setNewGrid();
 
 
 function changeCellColor(cell) {
-    if(cell.style.backgroundColor) return;
+    if(cell.classList.contains("hovered")) return;
 
     cell.style.backgroundColor = getRandomColor();
+    cell.classList.add("hovered");
 }
 
 function changeOpacity(cell) {
-    let currentOpacity = parseFloat(cell.style.opacity) || 0;
-    if(currentOpacity < 1)
-    {
-        cell.style.opacity = currentOpacity + 0.1;
-    }
-    else
-        return;
+    // let currentOpacity = parseFloat(cell.style.opacity) || 0;
+    // if(currentOpacity < 1)
+    // {
+    //     cell.style.opacity = currentOpacity + 0.1;
+    // }
+    // else
+    //     return;
 }
 
 function getRandom(max) {
@@ -27,7 +28,11 @@ function getRandom(max) {
 }
 
 function getRandomColor() {
-    return `rgb(${getRandom(255)},${getRandom(255)},${getRandom(255)})`;
+    return `rgba(${getRandom(255)},${getRandom(255)},${getRandom(255)},0.1)`;
+}
+
+function increaseOpacity(cell) {
+    cell.backgroundColor
 }
 
 function removeTheGrid() {
@@ -40,6 +45,7 @@ function clearTheGrid() {
         for(let cell of row.children) {
             if (cell instanceof HTMLElement) {
                 cell.style.backgroundColor = "";
+                cell.classList.remove("hovered")
             }
         }
     }
@@ -71,11 +77,11 @@ function setNewGrid(cellPerRow = 16) {
     const cellSize = Math.floor(gridSize / cellPerRow);
     const gridCell = document.createElement("div");
     gridCell.classList.add("grid-cell");
+    gridCell.dataset.hover = "0.1";
     gridCell.style.cssText = 
     `outline: 1px solid black;
     width: ${cellSize}px;
-    height: ${cellSize}px;
-    opacity:0.1;`;
+    height: ${cellSize}px;`;
 
     for (let index = 0; index < cellPerRow; index++) {
         //add a row
