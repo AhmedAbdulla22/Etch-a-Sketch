@@ -110,12 +110,16 @@ function setNewGrid(cellPerRow = 16) {
     }
 }
 
+function changeCellEffect(cell) {
+    changeCellColor(cell);
+    increaseHoverCount(cell);
+    increaseOpacity(cell);
+}
+
 //mouse hover cell effect
 gridContainer.addEventListener("mouseover",(e) => {
     if(!e.target.classList.contains("grid-cell")) return;
-    changeCellColor(e.target);
-    increaseHoverCount(e.target);
-    increaseOpacity(e.target);
+    
 });
 
 //change grid size
