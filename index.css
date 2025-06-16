@@ -1,5 +1,7 @@
-body {
+.app-container {
+    box-sizing: border-box;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -14,8 +16,7 @@ body {
     display: flex;
 }
 
-.grid-cell {
-    border: 1px solid black;
-    width: 25px;
-    height: 25px;
+
+#btn-grid-size {
+    margin-bottom: 10px;
 }
