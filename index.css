@@ -5,11 +5,11 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    gap: 10px;
 }
 
-.divs-container {
-    display: flex;
-    flex-direction: column;
+#grid-container {
+    border: 3px solid black;
 }
 
 .grid-row {
@@ -17,6 +17,15 @@
 }
 
 
-button {
-    margin: 10px;
+#button-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#title {
+    text-align: center;
+    font-family: Arial, Helvetica,sans-serif;
+    font-style: italic;
 }

@@ -1,6 +1,6 @@
 const btnGridSize = document.querySelector('#btn-grid-size');
 const btnGridClear = document.querySelector('#btn-grid-clear');
-const divsContainer = document.querySelector('#divs-container');
+const gridContainer = document.querySelector('#grid-container');
 
 //set new grid
 setNewGrid();
@@ -13,39 +13,51 @@ function changeCellColor(cell) {
     cell.classList.add("hovered");
 }
 
-function changeOpacity(cell) {
-    // let currentOpacity = parseFloat(cell.style.opacity) || 0;
-    // if(currentOpacity < 1)
-    // {
-    //     cell.style.opacity = currentOpacity + 0.1;
-    // }
-    // else
-    //     return;
-}
-
 function getRandom(max) {
     return Math.random() * max;
 }
 
 function getRandomColor() {
-    return `rgba(${getRandom(255)},${getRandom(255)},${getRandom(255)},0.1)`;
+    return `rgba(${getRandom(255)},${getRandom(255)},${getRandom(255)},0)`;
 }
 
 function increaseOpacity(cell) {
-    cell.backgroundColor
+    let hoverCount = parseInt(cell.dataset.hoverCount);
+    const bgColor = window.getComputedStyle(cell).backgroundColor;
+    const match = bgColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+),?\s*([\d\.]+)?\)/);
+
+    //if alpha exist and not undefined
+    if(match && match[4]) {
+        const r = match[1];
+        const g = match[2];
+        const b = match[3];
+        const oldAlpha = parseFloat(match[4]) || 0;
+        const newAlpha = Math.min(oldAlpha + 0.1,1);
+        cell.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${newAlpha})`;
+    }
+}
+
+function increaseHoverCount(cell) {
+    let hoverCount = parseInt(cell.dataset.hoverCount) || 0;
+
+    if(hoverCount === 10) return;
+
+    //increaseHoverCount and update it
+    hoverCount++;
+    cell.dataset.hoverCount = hoverCount.toString();
 }
 
 function removeTheGrid() {
-    divsContainer.replaceChildren();
+    gridContainer.replaceChildren();
 }
 
 function clearTheGrid() {
-    for(let row of divsContainer.children) {
+    for(let row of gridContainer.children) {
         if(!(row instanceof HTMLElement)) continue;
         for(let cell of row.children) {
             if (cell instanceof HTMLElement) {
                 cell.style.backgroundColor = "";
-                cell.classList.remove("hovered")
+                cell.classList.remove("hovered");
             }
         }
     }
@@ -77,9 +89,9 @@ function setNewGrid(cellPerRow = 16) {
     const cellSize = Math.floor(gridSize / cellPerRow);
     const gridCell = document.createElement("div");
     gridCell.classList.add("grid-cell");
-    gridCell.dataset.hover = "0.1";
+    gridCell.dataset.hoverCount = "0";
     gridCell.style.cssText = 
-    `outline: 1px solid black;
+    `outline: 1px solid gray;
     width: ${cellSize}px;
     height: ${cellSize}px;`;
 
@@ -87,7 +99,7 @@ function setNewGrid(cellPerRow = 16) {
         //add a row
         const gridRowCopy = gridRow.cloneNode(false);
         gridRowCopy.id = `grid-row-${index}`;
-        divsContainer.appendChild(gridRowCopy);
+        gridContainer.appendChild(gridRowCopy);
 
         //add cells to each new row
         for (let index = 0; index < cellPerRow; index++) {
@@ -99,10 +111,11 @@ function setNewGrid(cellPerRow = 16) {
 }
 
 //mouse hover cell effect
-divsContainer.addEventListener("mouseover",(e) => {
+gridContainer.addEventListener("mouseover",(e) => {
     if(!e.target.classList.contains("grid-cell")) return;
     changeCellColor(e.target);
-    changeOpacity(e.target);
+    increaseHoverCount(e.target);
+    increaseOpacity(e.target);
 });
 
 //change grid size
