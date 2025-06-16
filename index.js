@@ -1,4 +1,5 @@
 const btnGridSize = document.querySelector('#btn-grid-size');
+const btnGridClear = document.querySelector('#btn-grid-clear');
 const divsContainer = document.querySelector('#divs-container');
 
 //set new grid
@@ -11,6 +12,17 @@ function changeCellColor(cell) {
 
 function removeTheGrid() {
     divsContainer.replaceChildren();
+}
+
+function clearTheGrid() {
+    for(let row of divsContainer.children) {
+        if(!(row instanceof HTMLElement)) continue;
+        for(let cell of row.children) {
+            if (cell instanceof HTMLElement) {
+                cell.style.backgroundColor = "";
+            }
+        }
+    }
 }
 
 function changeGridSize() {
@@ -67,6 +79,8 @@ divsContainer.addEventListener("mouseover",(e) => {
 
 //change grid size
 btnGridSize.addEventListener("click",changeGridSize); 
+//clear the grid
+btnGridClear.addEventListener("click",clearTheGrid); 
 
 
 
