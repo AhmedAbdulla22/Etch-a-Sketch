@@ -7,7 +7,27 @@ setNewGrid();
 
 
 function changeCellColor(cell) {
-    cell.style.backgroundColor = "black";
+    if(cell.style.backgroundColor) return;
+
+    cell.style.backgroundColor = getRandomColor();
+}
+
+function changeOpacity(cell) {
+    let currentOpacity = parseFloat(cell.style.opacity) || 0;
+    if(currentOpacity < 1)
+    {
+        cell.style.opacity = currentOpacity + 0.1;
+    }
+    else
+        return;
+}
+
+function getRandom(max) {
+    return Math.random() * max;
+}
+
+function getRandomColor() {
+    return `rgb(${getRandom(255)},${getRandom(255)},${getRandom(255)})`;
 }
 
 function removeTheGrid() {
@@ -54,7 +74,8 @@ function setNewGrid(cellPerRow = 16) {
     gridCell.style.cssText = 
     `outline: 1px solid black;
     width: ${cellSize}px;
-    height: ${cellSize}px;`;
+    height: ${cellSize}px;
+    opacity:0.1;`;
 
     for (let index = 0; index < cellPerRow; index++) {
         //add a row
@@ -75,6 +96,7 @@ function setNewGrid(cellPerRow = 16) {
 divsContainer.addEventListener("mouseover",(e) => {
     if(!e.target.classList.contains("grid-cell")) return;
     changeCellColor(e.target);
+    changeOpacity(e.target);
 });
 
 //change grid size
