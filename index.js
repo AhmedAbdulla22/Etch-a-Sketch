@@ -21,6 +21,16 @@ for (let index = 0; index < 16; index++) {
     }
 }
 
+function changeCellColor(cell) {
+    cell.style.backgroundColor = "black";
+}
+
+divsContainer.addEventListener("mouseover",(e) => {
+    console.log(e.target.tagName);
+    if(e.target.tagName !== "DIV") return;
+    changeCellColor(e.target);
+    
+})
 
 
 
